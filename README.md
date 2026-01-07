@@ -20,11 +20,9 @@ Units MUST be defined on each array individually.
 Related arrays sharing a unit SHOULD validated at the application level.
 
 - Examples:
-  - **RECOMMENDED**: [SPDX specifier](examples/spdx.json)
-  - [URL to license text](examples/url.json)
-  - [License text](examples/text.json)
-  - [File containing license text](examples/file.json)
-  - [Path to Zarr node with license metadata](examples/path.json)
+  - [Full metadata](examples/arbitrary.json)
+  - [Minimal metadata](examples/minimal.json)
+  - [Arbitrary units](examples/arbitrary.json)
 
 ## Motivation
 
