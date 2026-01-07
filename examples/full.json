@@ -21,7 +21,7 @@
       {
         "schema_url": "https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json",
         "spec_url": "https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md",
-        "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5",
+        "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb",
         "name": "uom",
         "description": "Units of measurement for Zarr arrays"
       }
@@ -29,10 +29,9 @@
     "uom": {
       "ucum": {
         "version": "2.2",
-        "unit": "kg"
+        "unit": "20 kg"
       },
-      "description": "bushels of apples",
-      "magnitude": 20
+      "description": "bushels of apples"
     }
   }
 }

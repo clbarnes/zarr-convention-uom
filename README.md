@@ -1,6 +1,6 @@
 # Units of Measure Convention Metadata
 
-- **UUID**: 3bbe438d-df37-49fe-8e2b-739296d46dfb5
+- **UUID**: 3bbe438d-df37-49fe-8e2b-739296d46dfb
 - **Name**: License
 - **Schema URL**: "<https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json>"
 - **Spec URL**: "<https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md>"
@@ -41,7 +41,7 @@ The convention must be registered in `zarr_conventions`:
     {
       "schema_url": "https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json",
       "spec_url": "https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md",
-      "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5",
+      "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb",
       "name": "uom",
       "description": "Units of measurement for Zarr arrays"
     }
@@ -72,14 +72,13 @@ The `uom` key at the root `attributes` level MUST be an object.
 {
   "attributes": {
     "zarr_conventions": [
-      { "name": "uom", "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5" }
+      { "name": "uom", "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb" }
     ],
     "uom": {
       "ucum": {
         "version": "2.2",
         "unit": "kg"
       },
-      "magnitude": 20,
       "description": "apple count as weight equivalent of one bushel"
     }
   }
@@ -88,21 +87,10 @@ The `uom` key at the root `attributes` level MUST be an object.
 
 ### UOM Object
 
-| Field Name  | Required         | Type                                     | Description                |
-| ----------- | ---------------- | ---------------------------------------- | -------------------------- |
-| ucum        | yes              | [UCUM Object](#ucum-object)              |                            |
-| magnitude   | no, default `1`  | number                                   | Multiple of the given unit |
-| description | no, default `""` | Free text description of the measurement |
-
-### Additional Field Information
-
-#### `"magnitude"` (`uom.magnitude`)
-
-In some cases, the data in the zarr value may not be measured in whole units,
-e.g. measuring elevation in increments of 5 feet.
-In this case, this value measures increments.
-
-If the data is in kilograms and `uom.magnitude = 20`, a value of 10 in the zarr array would represent 200kg.
+| Field Name  | Required         | Type                                     | Description |
+| ----------- | ---------------- | ---------------------------------------- | ----------- |
+| ucum        | yes              | [UCUM Object](#ucum-object)              |             |
+| description | no, default `""` | Free text description of the measurement |             |
 
 ### UCUM Object
 
@@ -113,11 +101,7 @@ If the data is in kilograms and `uom.magnitude = 20`, a value of 10 in the zarr 
 
 #### `"unit"` (`uom.ucum.unit`)
 
-This MUST be a valid **case-sensitive** unit string according to the [Unified Code for Units of Measure](https://ucum.org/ucum).
-
-It is RECOMMENDED that the unit string does not contain a top-level magnitude term;
-this SHOULD be stored in `uom.magnitude`.
-If both are supplied, they MUST be multiplied together by the application.
+This MUST be a valid **case-sensitive** unit according to the [Unified Code for Units of Measure](https://ucum.org/ucum).
 
 By default (field omitted or set to `null`) the unit MUST be considered arbitrary.
 
@@ -125,11 +109,11 @@ By default (field omitted or set to `null`) the unit MUST be considered arbitrar
 
 ### Libraries and Tools
 
-- **[zarrs_conventions_license](https://github.com/clbarnes/zarrs_conventions/tree/main/zarrs_conventions_license)** - zarrs / zarrs_conventions implementation
+- **[zarrs_conventions_uom](https://github.com/clbarnes/zarrs_conventions/tree/main/zarrs_conventions_uom)** - zarrs / zarrs_conventions implementation
   - Language: Rust
   - Status: Experimental
   - Maintainer: @clbarnes
-  - Since: 2025-12-30
+  - Since: 2026-01-07
 
 ### Datasets Using This Convention
 

@@ -53,7 +53,7 @@
         },
         "uuid": {
           "type": "string",
-          "const": "3bbe438d-df37-49fe-8e2b-739296d46dfb5",
+          "const": "3bbe438d-df37-49fe-8e2b-739296d46dfb",
           "description": "UUID that permanently identifies this convention"
         },
         "name": {
@@ -83,10 +83,6 @@
       "type": "object",
       "description": "Unit of measurement for this numeric array data",
       "properties": {
-        "magnitude": {
-          "type": "number",
-          "description": "Magnitude of the measurement"
-        },
         "description": {
           "type": "string",
           "description": "Free-text description of the unit of measurement"
