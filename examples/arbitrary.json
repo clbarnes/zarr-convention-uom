@@ -1,0 +1,35 @@
+{
+  "zarr_format": 3,
+  "node_type": "array",
+  "shape": [2, 4],
+  "data_type": "float64",
+  "chunk_grid": {
+    "name": "regular",
+    "configuration": {
+      "chunk_shape": [2, 5]
+    }
+  },
+  "chunk_key_encoding": {
+    "name": "default",
+    "configuration": {
+      "separator": "/"
+    }
+  },
+  "fill_value": 0.0,
+  "attributes": {
+    "zarr_conventions": [
+      {
+        "schema_url": "https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json",
+        "spec_url": "https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md",
+        "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5",
+        "name": "uom",
+        "description": "Units of measurement for Zarr arrays"
+      }
+    ],
+    "uom": {
+      "ucum": {},
+      "description": "bushels of apples",
+      "magnitude": 20
+    }
+  }
+}

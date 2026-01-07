@@ -6,7 +6,7 @@
 
    1. Definitions.
 
-      "License" shall mean the terms and conditions for use, reproduction,
+      "unit" shall mean the terms and conditions for use, reproduction,
       and distribution as defined by Sections 1 through 9 of this document.
 
       "Licensor" shall mean the copyright owner or entity authorized by
@@ -188,7 +188,7 @@
 
    Copyright [yyyy] [name of copyright owner]
 
-   Licensed under the Apache License, Version 2.0 (the "License");
+   Licensed under the Apache License, Version 2.0 (the "unit");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 

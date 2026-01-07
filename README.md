@@ -1,25 +1,23 @@
-# License Convention Metadata
+# Units of Measure Convention Metadata
 
-- **UUID**: b77365e5-2b0c-4141-b917-c03b7c68e935
+- **UUID**: 3bbe438d-df37-49fe-8e2b-739296d46dfb5
 - **Name**: License
-- **Schema URL**: "<https://raw.githubusercontent.com/clbarnes/zarr-convention-license/refs/tags/v1/schema.json>"
-- **Spec URL**: "<https://github.com/clbarnes/zarr-convention-license/blob/v1/README.md>"
+- **Schema URL**: "<https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json>"
+- **Spec URL**: "<https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md>"
 - **Scope**: Array, Group
 - **Extension Maturity Classification**: Proposal
 - **Owner**: @clbarnes
 
 ## Description
 
-This convention defines how to communicate the license(s) of the data contained in a Zarr group or array.
-The license metadata exists in a field called `license` at the root `attributes` level following the [Zarr Conventions Specification](https://github.com/zarr-conventions/zarr-conventions-spec).
+This convention defines how to communicate the units of the data contained in a numeric Zarr array.
+The license metadata exists in a field called `uom` at the root `attributes` level following the [Zarr Conventions Specification](https://github.com/zarr-conventions/zarr-conventions-spec).
 
-Communicating the license of data is applicable across ecosystems and applications,
+Communicating the units of measure used by numeric is applicable across ecosystems and applications,
 and should be made as low-friction as possible to facilitate re-use of FAIR data.
 
-If applied to a group, a license implicitly applies to all descendants of that group.
-It is the responsibility of entities sharing subsets of Zarr data (or links to it) that the license is accessible from the shared subset.
-If license metadata is defined in a descendant of a group with license metadata, it is considered to override the ancestor's:
-i.e. if the descendant license metadata should instead be additive, the ancestor license must be re-applied.
+Units MUST be defined on each array individually.
+Related arrays sharing a unit SHOULD validated at the application level.
 
 - Examples:
   - **RECOMMENDED**: [SPDX specifier](examples/spdx.json)
@@ -30,9 +28,8 @@ i.e. if the descendant license metadata should instead be additive, the ancestor
 
 ## Motivation
 
-- **Data sharing**: Zarr data is regularly shared as a URL to a remote store; the license should be accessible alongside the data
-- **Machine-discoverability**: Increasingly, data is accessed by automated systems, which should be able to parse standard licenses in situ
-- **Use case alignment**: Various wrapper formats and sub-conventions may include license information, but these may not be understood by all zarr-reading tools
+- **Comparability**: Units of measure are an essential piece of data for comparing raw data
+- [**Not crashing your mars orbiter**](https://en.wikipedia.org/wiki/Mars_Climate_Orbiter)
 
 ## Convention Registration
 
@@ -42,11 +39,11 @@ The convention must be registered in `zarr_conventions`:
 {
   "zarr_conventions": [
     {
-      "schema_url": "https://raw.githubusercontent.com/clbarnes/zarr-convention-license/refs/tags/v1/schema.json",
-      "spec_url": "https://github.com/clbarnes/zarr-convention-license/blob/v1/README.md",
-      "uuid": "b77365e5-2b0c-4141-b917-c03b7c68e935",
-      "name": "license",
-      "description": "License specifier for Zarr data"
+      "schema_url": "https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json",
+      "spec_url": "https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md",
+      "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5",
+      "name": "uom",
+      "description": "Units of measurement for Zarr arrays"
     }
   ]
 }
@@ -56,24 +53,18 @@ The convention must be registered in `zarr_conventions`:
 
 This convention can be used with these parts of the Zarr hierarchy:
 
-- [x] Group
+- [ ] Group
 - [x] Array
 
 ## Properties
 
-The `license` key at the root `attributes` level MUST be an object.
-The object SHOULD only have one key, although multiple MAY be given if they represent identical licenses;
-i.e. do not use the "MIT" SPDX identifier and a URL to an Apache license.
-Implementations MAY ignore additional keys when resolving the license,
-but SHOULD retain the original multiple representations when writing back.
+The `uom` key at the root `attributes` level MUST be an object.
 
-An empty `license` array represents unlicensed data which SHOULD NOT be accessed without permission.
+**Convention metadata name**: `uom`
 
-**Convention metadata name**: `license`
-
-| Field Name | Type                              | Description  |
-| ---------- | --------------------------------- | ------------ |
-| license    | [License Object](#license-object) | **REQUIRED** |
+| Field Name | Required | Type                      | Description |
+| ---------- | -------- | ------------------------- | ----------- |
+| uom        | yes      | [UOM Object](#uom-object) |             |
 
 **Example**:
 
@@ -81,72 +72,54 @@ An empty `license` array represents unlicensed data which SHOULD NOT be accessed
 {
   "attributes": {
     "zarr_conventions": [
-      { "name": "license", "uuid": "b77365e5-2b0c-4141-b917-c03b7c68e935" }
+      { "name": "uom", "uuid": "3bbe438d-df37-49fe-8e2b-739296d46dfb5" }
     ],
-    "license": { "spdx": "CC0" }
+    "uom": {
+      "ucum": {
+        "version": "2.2",
+        "unit": "kg"
+      },
+      "magnitude": 20,
+      "description": "apple count as weight equivalent of one bushel"
+    }
   }
 }
 ```
 
-### License Object
+### UOM Object
 
-At least one field MUST be used.
-Only one field SHOULD be used.
-The `spdx` form is RECOMMENDED.
-
-Where multiple fields are given, implementations SHOULD prefer fields at the top of the list to fields at the bottom,
-and MAY treat subsequent fields as redundant.
-
-| Field Name | Type   | Description                                                                          |
-| ---------- | ------ | ------------------------------------------------------------------------------------ |
-| spdx       | string | **RECOMMENDED**. An [SPDX license expression](https://spdx.org/licenses/).           |
-| url        | string | A URL to the full text of the license.                                               |
-| text       | string | The full JSON-encoded text of the license.                                           |
-| file       | string | A relative path from this Zarr node to an object containing the text of the license. |
-| path       | string | A relative path from this Zarr node to a Zarr node with explicit license metadata.   |
-
-Some licenses require further information for attribution purposes.
-Such attribution information is out of scope for this convention.
-
-SPDX expressions support arbitrary combinations of licenses with `AND`, `OR`, parentheses `()`, and `WITH` exceptions.
-Other forms representing similar combinations MUST contain all relevant license and exception texts.
-
-Data which explicitly grants no license SHOULD use `"license": {"spdx": "NONE"}`.
+| Field Name  | Required         | Type                                     | Description                |
+| ----------- | ---------------- | ---------------------------------------- | -------------------------- |
+| ucum        | yes              | [UCUM Object](#ucum-object)              |                            |
+| magnitude   | no, default `1`  | number                                   | Multiple of the given unit |
+| description | no, default `""` | Free text description of the measurement |
 
 ### Additional Field Information
 
-#### `"url"` (`license.url`)
+#### `"magnitude"` (`uom.magnitude`)
 
-Where possible, this should use the HTTPS scheme.
-The endpoint should return plain text in response to a standard GET request, ideally with no or minimal markup.
+In some cases, the data in the zarr value may not be measured in whole units,
+e.g. measuring elevation in increments of 5 feet.
+In this case, this value measures increments.
 
-For common licenses, multiple URLs may resolve to identical license text.
-It is RECOMMENDED to use "more canonical" sources (e.g. an apache license from the apache domain).
+If the data is in kilograms and `uom.magnitude = 20`, a value of 10 in the zarr array would represent 200kg.
 
-#### `"file"` (`license.file`)
+### UCUM Object
 
-Paths are relative to the Zarr node (i.e. the prefix/ "directory" containing the metadata file), using POSIX semantics.
-Ancestor prefixes MAY be traversed with `..`.
-The current prefix MAY be referred to as `.`.
-The path MAY start with `./`.
-The path MUST NOT start or end with `/`.
+| Field Name | Required                          | Type   | Description                   |
+| ---------- | --------------------------------- | ------ | ----------------------------- |
+| unit       | no, default `"1"`                 | string | UCUM unit string              |
+| version    | no, default most recent supported | string | Version of UCUM specification |
 
-The file containing the license text MUST be UTF-8 encoded and SHOULD contain minimal markup.
+#### `"unit"` (`uom.ucum.unit`)
 
-**WARNING**: Rootward references (`..`) can fail if the store uses a root which is a descendant of the highest-level element in the path.
-Implementations SHOULD treat the data as unlicensed if the reference cannot be resolved to valid license metadata.
+This MUST be a valid **case-sensitive** unit string according to the [Unified Code for Units of Measure](https://ucum.org/ucum).
 
-**WARNING**: Rootward references (`..`) can return misleading information if any indirection takes place in the hierarchy (e.g. file system mounts or symlinks).
+It is RECOMMENDED that the unit string does not contain a top-level magnitude term;
+this SHOULD be stored in `uom.magnitude`.
+If both are supplied, they MUST be multiplied together by the application.
 
-#### `"path"` (`license.path`)
-
-The rules around resolving relative paths is as described in the `file` section above, with the same warnings.
-
-While `file` resolves to a stored object, `path` should resolve to a prefix representing a zarr node (group or array).
-i.e. the metadata document for the node would be retrieved by appending `/zarr.json` to the `path` string.
-
-When resolving a `path` reference, implementations MUST take care to raise an error on cycles
-(e.g. node A's license refers to node B and node B's license refers to node A).
+By default (field omitted or set to `null`) the unit MUST be considered arbitrary.
 
 ## Known Implementations
 
