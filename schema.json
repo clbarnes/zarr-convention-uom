@@ -28,10 +28,7 @@
           "$ref": "#/$defs/uom"
         }
       },
-      "required": [
-        "zarr_conventions",
-        "uom"
-      ]
+      "required": ["zarr_conventions", "uom"]
     }
   },
   "required": ["zarr_format", "node_type", "attributes"],
@@ -91,9 +88,7 @@
           "$ref": "#/$defs/ucum"
         }
       },
-      "required": [
-        "ucum"
-      ]
+      "required": ["ucum"]
     },
     "ucum": {
       "type": "object",
