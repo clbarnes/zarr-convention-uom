@@ -10,7 +10,7 @@
     },
     "node_type": {
       "type": "string",
-      "enum": ["array", "group"],
+      "const": "array",
       "description": "Type of Zarr node"
     },
     "attributes": {
