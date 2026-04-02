@@ -1,11 +1,11 @@
 # Units of Measure Convention Metadata
 
 - **UUID**: 3bbe438d-df37-49fe-8e2b-739296d46dfb
-- **Name**: License
+- **Name**: Units of Measure
 - **Schema URL**: "<https://raw.githubusercontent.com/clbarnes/zarr-convention-uom/refs/tags/v1/schema.json>"
 - **Spec URL**: "<https://github.com/clbarnes/zarr-convention-uom/blob/v1/README.md>"
 - **Scope**: Array, Group
-- **Extension Maturity Classification**: Proposal
+- **Extension Maturity Classification**: Pilot
 - **Owner**: @clbarnes
 
 ## Description
